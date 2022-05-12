@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  mysql-standalone:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+     - /demodb:/var/lib/mysql
+  spring-boot-docker:
+    image: user-mysql
+    environment:
+      MYSQL_HOST: mysql-standalone
+      MYSQL_DATABASE: test
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: password
+      MYSQL_PORT: 3306
+    ports:
+      - 8089:8089
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    depends_on:
+      - mysql-standalone
+volumes:
+  demodb:
+  
+      
